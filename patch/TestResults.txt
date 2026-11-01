@@ -1,3 +1,14 @@
+Installer hotfix validation (November 1, 2026)
+- Reproduced the exact display-mode error with the old installer and a supported
+  clean retail EXE, without changing that original installation.
+- Fixed detection: InvalidDataException now means not already Modern Patch;
+  strict baseline/payload validation remains in force before any installation.
+- 14 detection assertions passed: clean retail, all supported display modes,
+  modified/truncated/missing EXEs and modified DLLs; detection does not rewrite files.
+- GUI and integration checks now share InstallSelection. Fresh retail -> core
+  plus HD completed and every payload matched; full Undo restored all originals.
+- Existing-core -> HD-only uses that same selection path in the HD checks.
+
 Freelancer Modern Patch v1.1.0 - optional HD validation
 
 - Three upstream repositories pinned by commit; every downloaded file verified
@@ -7,7 +18,7 @@ Freelancer Modern Patch v1.1.0 - optional HD validation
   icons/HUD 2048. This is not a claim that every texture has one fixed resolution.
 - No HD asset path overlaps a core patch file. The HUD set's matching mouse.ini
   is included; no music, shader wrapper, draw-distance or other HDE overhaul files.
-- 30 core installer assertions and 17 HD installer assertions passed, including
+- 30 core installer assertions and 18 HD installer assertions passed, including
   damaged-file rejection, backups, save/FPS preservation, reinstall and rollback.
 - Full HD installation verified all 726 entries (717 assets and nine notices),
   plus all 717 original backups. HD-only Undo restored every original asset while

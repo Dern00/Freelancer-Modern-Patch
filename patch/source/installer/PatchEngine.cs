@@ -75,6 +75,18 @@ namespace FreelancerModernSetup
         public static void Install(string package, string game, Action<int, string> progress)
         { InstallComponent(package, game, progress, false); }
 
+        public static void InstallSelection(string package, string game, bool includeTextures, Action<int, string> progress)
+        {
+            bool already = IsModernGame(package, game);
+            if (already && !includeTextures) throw new IOException("The core Modern Patch is already installed. Select HD textures to add them, or close setup.");
+            if (!already) Install(package, game, progress);
+            if (includeTextures)
+            {
+                try { InstallTextures(package, game, progress); }
+                catch (Exception error) { throw new IOException("The core patch is installed. HD textures did not finish: " + error.Message); }
+            }
+        }
+
         public static void InstallTextures(string package, string game, Action<int, string> progress)
         {
             if (!IsModernGame(package, game)) throw new IOException("Install the core Modern Patch before adding HD textures. The required game files did not match.");
@@ -92,6 +104,10 @@ namespace FreelancerModernSetup
                     if (!Equal(Hash(Safe(game, entry.path)), entry.sha256)) return false;
                 return true;
             }
+            // PrepareMode validates patched EXEs. A retail or incompatible EXE
+            // is a negative detection result; Install still checks retail hashes.
+            // InvalidDataException does not derive from IOException on .NET Framework.
+            catch (InvalidDataException) { return false; }
             catch (IOException) { return false; }
             catch (UnauthorizedAccessException) { return false; }
         }

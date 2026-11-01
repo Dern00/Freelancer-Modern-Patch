@@ -26,8 +26,9 @@ static class TextureChecks
         string manifest = new JavaScriptSerializer().Serialize(new[] { new Entry { path = "DATA/test.txm", sha256 = Installer.Hash(texture), original_sha256 = Installer.Hash(original) } });
         string manifestPath = Path.Combine(package, "hd-manifest.json"); Put(manifestPath, manifest);
         string coreHash = Installer.Hash(Path.Combine(game, "EXE/Freelancer.exe"));
-        Action install = delegate { PatchEngine.InstallTextures(package, game, delegate { }); };
+        Action install = delegate { PatchEngine.InstallSelection(package, game, true, delegate { }); };
         Check(PatchEngine.IsModernGame(package, game), "Modern core was not recognized");
+        Reject(delegate { PatchEngine.InstallSelection(package, game, false, delegate { }); }, "core Modern Patch is already installed");
         Put(texture, "corrupt"); Reject(install, "Patch file check failed"); Put(texture, "HD texture");
         Put(original, "modded texture"); Reject(install, "Unsupported or modified"); Put(original, "original texture");
         Put(manifestPath, manifest.Replace("DATA/test.txm", "EXE/not-an-asset.dll")); Reject(install, "must be game assets"); Put(manifestPath, manifest);

@@ -53,17 +53,7 @@ namespace FreelancerModernSetup
                 string package = AppDomain.CurrentDomain.BaseDirectory;
                 if (restoringHd) PatchEngine.UndoTextures(path, progress);
                 else if (restoring) PatchEngine.Undo(path, progress);
-                else
-                {
-                    bool already = PatchEngine.IsModernGame(package, path);
-                    if (already && !wantHd) throw new IOException("The core Modern Patch is already installed. Select HD textures to add them, or close setup.");
-                    if (!already) PatchEngine.Install(package, path, progress);
-                    if (wantHd)
-                    {
-                        try { PatchEngine.InstallTextures(package, path, progress); }
-                        catch (Exception error) { throw new IOException("The core patch is installed. HD textures did not finish: " + error.Message); }
-                    }
-                }
+                else PatchEngine.InstallSelection(package, path, wantHd, progress);
                 args.Result = Installer.Full(path);
             };
             worker.ProgressChanged += delegate(object sender, ProgressChangedEventArgs args) { bar.Value = args.ProgressPercentage; status.Text = (string)args.UserState; };
@@ -84,10 +74,11 @@ namespace FreelancerModernSetup
         [STAThread]
         static int Main(string[] args)
         {
-            if (args.Length == 3 && (args[0] == "--install-check" || args[0] == "--undo-check" || args[0] == "--install-hd-check" || args[0] == "--undo-hd-check"))
+            if (args.Length == 3 && (args[0] == "--install-check" || args[0] == "--undo-check" || args[0] == "--install-hd-check" || args[0] == "--undo-hd-check" || args[0] == "--selection-check" || args[0] == "--selection-hd-check"))
             {
                 try {
                     if (args[0] == "--install-check") PatchEngine.Install(AppDomain.CurrentDomain.BaseDirectory, args[1], delegate { });
+                    else if (args[0] == "--selection-check" || args[0] == "--selection-hd-check") PatchEngine.InstallSelection(AppDomain.CurrentDomain.BaseDirectory, args[1], args[0] == "--selection-hd-check", delegate { });
                     else if (args[0] == "--install-hd-check") PatchEngine.InstallTextures(AppDomain.CurrentDomain.BaseDirectory, args[1], delegate { });
                     else if (args[0] == "--undo-hd-check") PatchEngine.UndoTextures(args[1], delegate { });
                     else PatchEngine.Undo(args[1], delegate { });

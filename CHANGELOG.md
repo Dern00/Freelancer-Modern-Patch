@@ -2,6 +2,11 @@
 
 ## Freelancer Modern Patch v1.1.0
 
+**Installer hotfix, November 1, 2026:** fixes clean retail installations being
+incorrectly stopped by an "unrecognized display-mode changes" message. Existing
+v1.1.0 download filenames and links are retained. Download the ZIP again if you
+encountered that error. The game and HD asset payloads are unchanged.
+
 Optional HD textures, with the tested core gameplay patch unchanged.
 
 - Includes the freely reusable FLHDE base interior/planetscape, character, and

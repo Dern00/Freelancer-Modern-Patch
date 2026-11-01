@@ -44,6 +44,14 @@ Noninteractive integration modes use the exact same engine as the GUI:
   Freelancer-Setup.exe --undo-hd-check "game folder" "result text file"
 TextureChecks.cs uses /main:TextureChecks with the same sources/references; pass
 the assembled patch folder and an existing scratch folder to its executable.
+DetectionChecks.cs uses /main:DetectionChecks; pass the patch folder, a supported
+retail game folder and a scratch folder. It verifies retail detection, supported
+display modes and rejection of modified, truncated or missing game files.
+The GUI and --selection-check / --selection-hd-check share InstallSelection, so
+integration checks exercise the same detection-and-install route as the UI.
+Installer hotfix (2026-11-01): treat InvalidDataException from patched-EXE
+validation as a negative detection result. .NET Framework does not derive this
+exception from IOException. The full retail/payload hash checks still apply.
 Exit codes: 0 success, 1 failure. --undo "game folder" opens the Undo interface.
 
 MIT License
