@@ -1,39 +1,54 @@
-Freelancer Modern Patch v1.0.1
-Release: v1.0.1. Installer update; game payload unchanged from v1.0. Focused single-player validation completed; see TestResults.txt.
-Menu, opening-cinematic and controlled-flight samples measured 120 FPS; see
-TestResults.txt for coverage and frame-time statistics.
-The tested bar conversation now also averages 119.96 FPS, with user-confirmed
-normal voice/animation synchronization after the cinematic-limit fix.
+Freelancer Modern Patch v1.1.0
+
+CHOOSE A DOWNLOAD
+- Freelancer-Modern-Patch-v1.1.0.zip: small core patch, original textures.
+- Freelancer-Modern-Patch-HD-v1.1.0.zip: complete core installer plus optional HD
+  interiors/planetscapes, character textures, icons and HUD backgrounds.
+  About 1.4 GB compressed, 2.4 GB of HD assets extracted. Keep several GB free
+  for extraction, installation and retained backups. The game itself is required.
 
 INSTALL
-1. Extract the complete release ZIP into its own folder.
-2. Double-click Install.cmd (or Freelancer-Setup.exe).
-3. Click Browse and choose the original Freelancer folder containing EXE and DATA.
-4. Click Install. Setup patches the selected folder directly.
-5. Click Play Freelancer. Next time, open Play Freelancer.cmd in your game folder.
+1. Close Freelancer and extract the ZIP into its own folder outside the game.
+2. Double-click Install.cmd.
+3. Browse to the English retail game folder containing EXE and DATA.
+4. In the HD download, leave Install HD textures checked to include the packs,
+   or uncheck it for the core patch only. Click Install.
+5. Use Play Freelancer HD.cmd in the game folder for HD, or Play Freelancer.cmd
+   for core-only play. Both preserve your existing FPS selection.
 
-Setup backs up replaced files in ModernPatchBackup before changing the game.
-It checks the supported original files and every payload file before installing,
-then verifies the installed payload. An unmodified English retail game is required.
-The checks cover replaced files and patch conflicts, not every possible third-party mod.
-No PowerShell commands or execution-policy changes are needed. Choose a folder
-your account can write to; administrator mode is not required by the patch.
-Keep the extracted patch outside the game folder. Close Freelancer before installing.
-Use a game path without accented or other non-English characters; spaces work.
+Already using Modern Patch v1.0 or v1.0.1? Select that patched game folder with
+HD textures checked. Setup verifies the existing EXE/DLLs and adds only the HD
+assets. Core settings and saves are preserved. No core reinstall is required.
+Clean installs receive the core patch first, followed by HD if selected. If the
+HD step fails, the core remains installed and setup explains how to retry.
 
-Your existing saves are left untouched and are not imported or backed up by this
-installer. The patched game uses its own SAVE folder. Keep that folder to retain
-your progress. The older Install.ps1 is a separate-copy helper for advanced users.
+Use a writable game folder with an ASCII path; spaces work. No PowerShell
+commands, execution-policy changes or administrator launch are required.
+Unrelated mods, other language editions and already-modified target textures
+are not supported. Payload and original-file checks run before modification.
 
-UNDO
-Close the game, open Undo Modern Patch.cmd in the game folder, and click Undo Patch.
-Setup restores verified original files and removes added game patch files. Saves
-are kept. Current patch files/settings are retained in ModernPatchBackup, and the
-small ModernPatch tool folder and Undo entry remain for reference. Do not delete
-ModernPatchBackup while the patch is installed: Undo needs it.
-After Undo, you can install again; the previous backup is archived automatically.
-An ordinary installation error triggers restoration. If power loss interrupts the
-operation, reopen setup and use Undo Patch to recover from the recorded backup.
+UNDO AND SAVES
+- Undo HD Textures.cmd -> Undo HD Textures restores original assets while keeping
+  the core patch, current FPS setting and saves.
+- Undo Modern Patch.cmd -> Undo Patch restores both HD and the core patch when
+  a core backup exists. Older hand-patched copies may only have an HD backup.
+- Keep ModernTexturesBackup and ModernPatchBackup while their components are
+  installed. Undo verifies backups and retains removed patch files/settings.
+- Saves are kept; the patch uses the game's SAVE folder. Existing Documents
+  saves are not automatically imported or backed up.
+- Small helper/Undo folders and backups remain after restoration. A subsequent
+  install archives the prior restored backup. An interrupted restore can be retried.
+
+HD CONTENT AND CREDITS
+717 assets from three explicitly reusable MIT-licensed FLHDE packs:
+213 base interior/planetscape files; 384 character files; 120 icon/HUD files.
+The HUD set includes its matching mouse.ini cursor definition. All supplied
+assets are copied unchanged. Copyright/license notices remain in credits/HD.
+Credits: BC46 / C.S. Melis, plus Freestalker.fr for the targeting/commodity icons.
+Exact source commits and links are in hd-sources.json in the HD download.
+No other HD Edition textures, music, ReShade, draw-distance changes or gameplay
+overhaul are included. Higher-resolution assets may increase loading time and
+memory usage. The older gameplay performance captures predate the HD packs.
 
 BORDERLESS / FULLSCREEN
 Use Play Freelancer.cmd in your game folder for normal borderless play.
@@ -67,7 +82,7 @@ field of view/fonts and HUD Shift adjusts HUD position for the aspect ratio.
 checks passed on the primary display, along with Alt+Tab and restoring 1440p.
 A scaled 1080p flight sample averaged 143.99 FPS with normal user-reported
 controls. See TestResults.txt for capture limits. Ultrawide monitors are untested.
-No HD textures, music replacements, balance changes, or extended draw distances.
+HD textures are optional; no music replacements, balance changes or extended draw distances.
 Rendering currently uses native Direct3D 8, with no external wrapper.
 In Options > General > Display, use the arrows beside FRAME LIMIT to choose
 60, 120 or 144 FPS. Changes apply immediately and save for the next launch.

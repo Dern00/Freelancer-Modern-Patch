@@ -1,3 +1,28 @@
+Freelancer Modern Patch v1.1.0 - optional HD validation
+
+- Three upstream repositories pinned by commit; every downloaded file verified
+  against its upstream Git blob ID. All 717 game assets are unchanged upstream files.
+- 716 UTF asset containers passed node/leaf bounds checks. DDS headers validated;
+  largest DDS dimensions observed: interiors/planetscapes 2048, characters 1024,
+  icons/HUD 2048. This is not a claim that every texture has one fixed resolution.
+- No HD asset path overlaps a core patch file. The HUD set's matching mouse.ini
+  is included; no music, shader wrapper, draw-distance or other HDE overhaul files.
+- 30 core installer assertions and 17 HD installer assertions passed, including
+  damaged-file rejection, backups, save/FPS preservation, reinstall and rollback.
+- Full HD installation verified all 726 entries (717 assets and nine notices),
+  plus all 717 original backups. HD-only Undo restored every original asset while
+  keeping all core files, settings and saves byte-identical to their pre-Undo state.
+- HD reinstall followed by full Undo restored both core and HD originals and
+  retained every save. Installed helper entry points use the same tested engine.
+- User confirmed scenery/characters, mouse alignment and FPS selector behavior,
+  1920x1080 switching and return to 2560x1440, and normal flight/HUD/targeting.
+- No new controlled FPS, loading-time or memory benchmark was recorded for HD.
+  Prior numerical performance results below apply only to the core patch.
+- Runtime core payload remains byte-identical to v1.0/v1.0.1. Installer code and
+  optional assets changed; the gameplay patch itself did not.
+
+Historical core-only measurements follow (before HD textures):
+
 Freelancer Modern Patch v1.0.1 - installer validation
 
 - Native installer builds with warnings treated as errors.

@@ -22,3 +22,9 @@ licensed codebase. Existing notices remain with their components.
 
 Upstream versions, commits, source links and file hashes: `patch/sources.json`.
 The release ZIP contains the custom source, all bundled notices and patch payload.
+
+## Optional HD assets
+
+- [freelancer-hd-base-interiors-and-planetscapes](https://github.com/FLHDE/freelancer-hd-base-interiors-and-planetscapes/tree/c91bab78fce289aad247e65b4e549588666ffd23): MIT. Original notices in `licenses/HD/freelancer-hd-base-interiors-and-planetscapes/LICENSE`.
+- [freelancer-hd-character-models](https://github.com/FLHDE/freelancer-hd-character-models/tree/8762184d9e58ea0f084991c0e444c04327a1ca4b): MIT. Original notices in `licenses/HD/freelancer-hd-character-models/LICENSE`.
+- [freelancer-hd-icons-and-hud-backgrounds](https://github.com/FLHDE/freelancer-hd-icons-and-hud-backgrounds/tree/9cbbc718c98159f06fbf6aa88f796106a0593d92): MIT. Original notices in `licenses/HD/freelancer-hd-icons-and-hud-backgrounds/LICENSE`.

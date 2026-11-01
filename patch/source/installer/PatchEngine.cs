@@ -25,6 +25,7 @@ namespace FreelancerModernSetup
     public static class PatchEngine
     {
         const string BackupName = "ModernPatchBackup";
+        const string HdBackupName = "ModernTexturesBackup";
         static readonly JavaScriptSerializer Json = new JavaScriptSerializer();
         static bool Equal(string a, string b) { return String.Equals(a, b, StringComparison.OrdinalIgnoreCase); }
         static string Safe(string root, string relative) { return Installer.SafeEntry(root, relative); }
@@ -50,7 +51,7 @@ namespace FreelancerModernSetup
                 string normalized = Safe(backup, entry.Path);
                 string first = entry.Path.Replace('/', '\\').Split('\\')[0];
                 if (!seen.Add(normalized) || Equal(first, "SAVE") || Equal(first, "SCREENSHOTS") ||
-                    first.StartsWith(BackupName, StringComparison.OrdinalIgnoreCase) ||
+                    first.StartsWith(BackupName, StringComparison.OrdinalIgnoreCase) || first.StartsWith(HdBackupName, StringComparison.OrdinalIgnoreCase) ||
                     !Regex.IsMatch(entry.InstalledHash ?? "", "^[0-9a-fA-F]{64}$") ||
                     (entry.OriginalHash != null && !Regex.IsMatch(entry.OriginalHash, "^[0-9a-fA-F]{64}$")))
                     throw new IOException("Invalid backup entry. No game files were changed.");
@@ -72,6 +73,30 @@ namespace FreelancerModernSetup
         }
 
         public static void Install(string package, string game, Action<int, string> progress)
+        { InstallComponent(package, game, progress, false); }
+
+        public static void InstallTextures(string package, string game, Action<int, string> progress)
+        {
+            if (!IsModernGame(package, game)) throw new IOException("Install the core Modern Patch before adding HD textures. The required game files did not match.");
+            InstallComponent(package, game, progress, true);
+        }
+
+        public static bool IsModernGame(string package, string game)
+        {
+            try
+            {
+                var entries = Json.Deserialize<Entry[]>(File.ReadAllText(Path.Combine(package, "manifest.json")));
+                var exe = entries.Single(e => Equal(e.path.Replace('\\', '/'), "EXE/Freelancer.exe"));
+                Launcher.PrepareMode(File.ReadAllBytes(Safe(game, exe.path)), exe.sha256, "Fullscreen");
+                foreach (Entry entry in entries.Where(e => e.path.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)))
+                    if (!Equal(Hash(Safe(game, entry.path)), entry.sha256)) return false;
+                return true;
+            }
+            catch (IOException) { return false; }
+            catch (UnauthorizedAccessException) { return false; }
+        }
+
+        static void InstallComponent(string package, string game, Action<int, string> progress, bool textures)
         {
             package = Installer.Full(package); game = Installer.Full(game); CheckGame(game);
             if (game.Any(c => c > 127))
@@ -80,16 +105,16 @@ namespace FreelancerModernSetup
                 game.StartsWith(package + "\\", StringComparison.OrdinalIgnoreCase))
                 throw new IOException("Extract the patch into a separate folder outside your game folder.");
             Installer.NoLinks(package);
-            string backup = Path.Combine(game, BackupName);
+            string backup = Path.Combine(game, textures ? HdBackupName : BackupName);
             BackupState previous = Directory.Exists(backup) ? ReadState(backup) : null;
             if (previous != null && previous.Status != "Restored")
-                throw new IOException("This folder already has a patch backup. Use Undo Patch to restore it before installing again.");
+                throw new IOException(textures ? "This folder already has an HD texture backup. Use Undo HD Textures before installing them again." : "This folder already has a patch backup. Use Undo Patch to restore it before installing again.");
             if (File.Exists(backup)) throw new IOException("A file conflicts with the patch backup folder.");
             progress(0, "Checking the game and patch files...");
             Installer.Files(game); // Reject junctions before touching any game files.
-            string payload = Path.Combine(package, "payload");
+            string payload = Path.Combine(package, textures ? "hd-payload" : "payload");
             var payloadFiles = Installer.Files(payload);
-            var entries = Json.Deserialize<Entry[]>(File.ReadAllText(Path.Combine(package, "manifest.json")));
+            var entries = Json.Deserialize<Entry[]>(File.ReadAllText(Path.Combine(package, textures ? "hd-manifest.json" : "manifest.json")));
             if (entries == null || entries.Length == 0) throw new IOException("The patch manifest is empty.");
             var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var sources = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -98,6 +123,9 @@ namespace FreelancerModernSetup
             {
                 if (entry == null || !Regex.IsMatch(entry.sha256 ?? "", "^[0-9a-fA-F]{64}$")) throw new IOException("Invalid patch checksum.");
                 string file = Safe(payload, entry.path), target = Safe(game, entry.path);
+                if (textures && !entry.path.Replace('\\', '/').StartsWith("DATA/", StringComparison.OrdinalIgnoreCase) &&
+                    !entry.path.Replace('\\', '/').StartsWith("credits/HD/", StringComparison.OrdinalIgnoreCase))
+                    throw new IOException("HD texture entries must be game assets or their credits.");
                 if (!seen.Add(file)) throw new IOException("Duplicate patch file in manifest.");
                 if (!Equal(Hash(file), entry.sha256)) throw new IOException("Patch file check failed: " + entry.path + ". Extract a fresh download.");
                 if (!String.IsNullOrEmpty(entry.original_sha256))
@@ -110,20 +138,26 @@ namespace FreelancerModernSetup
                 state.Changes.Add(new Change { Path = entry.path, OriginalHash = entry.original_sha256, InstalledHash = entry.sha256 });
             }
             if (seen.Count != payloadFiles.Count || payloadFiles.Any(f => !seen.Contains(f))) throw new IOException("The payload contains unexpected files.");
-            foreach (string reserved in new[] { "ModernPatch", "Play Freelancer.cmd", "Undo Modern Patch.cmd" })
+            string supportFolder = textures ? "ModernTextures" : "ModernPatch";
+            string playCommand = textures ? "Play Freelancer HD.cmd" : "Play Freelancer.cmd";
+            string undoCommand = textures ? "Undo HD Textures.cmd" : "Undo Modern Patch.cmd";
+            foreach (string reserved in new[] { supportFolder, playCommand, undoCommand })
                 if (Exists(Path.Combine(game, reserved)) && previous == null)
                     throw new IOException("An existing file or folder conflicts: " + reserved);
             foreach (string name in new[] { "Freelancer-Setup.exe", "Freelancer-Launcher.exe", "manifest.json" })
             {
                 string file = Path.Combine(package, name);
-                string relative = "ModernPatch/" + name;
+                string relative = supportFolder + "/" + name;
                 sources.Add(relative, file);
                 state.Changes.Add(new Change { Path = relative, InstalledHash = Hash(file), KeepOnUndo = true });
             }
             var commands = new Dictionary<string, string> {
-                { "Play Freelancer.cmd", "@echo off\r\nsetlocal DisableDelayedExpansion\r\nstart \"\" \"%~dp0ModernPatch\\Freelancer-Launcher.exe\" \"%~dp0.\" Borderless\r\n" },
-                { "Undo Modern Patch.cmd", "@echo off\r\nsetlocal DisableDelayedExpansion\r\nstart \"\" \"%~dp0ModernPatch\\Freelancer-Setup.exe\" --undo \"%~dp0.\"\r\n" }
+                { playCommand, "@echo off\r\nsetlocal DisableDelayedExpansion\r\nstart \"\" \"%~dp0" + supportFolder + "\\Freelancer-Launcher.exe\" \"%~dp0.\" Borderless\r\n" },
+                { undoCommand, "@echo off\r\nsetlocal DisableDelayedExpansion\r\nstart \"\" \"%~dp0" + supportFolder + "\\Freelancer-Setup.exe\" " + (textures ? "--undo-hd" : "--undo") + " \"%~dp0.\"\r\n" }
             };
+            // Route older core uninstall shortcuts through this version so HD is restored first.
+            if (textures && Directory.Exists(Path.Combine(game, BackupName)) && File.Exists(Path.Combine(game, "Undo Modern Patch.cmd")))
+                commands.Add("Undo Modern Patch.cmd", "@echo off\r\nsetlocal DisableDelayedExpansion\r\nstart \"\" \"%~dp0ModernTextures\\Freelancer-Setup.exe\" --undo \"%~dp0.\"\r\n");
             // Prepare and verify every backup before replacing the first game file.
             string stage = backup + ".preparing-" + Guid.NewGuid().ToString("N");
             Directory.CreateDirectory(stage);
@@ -132,7 +166,7 @@ namespace FreelancerModernSetup
                 string file = Path.Combine(stage, "commands", command.Key);
                 Directory.CreateDirectory(Path.GetDirectoryName(file)); File.WriteAllText(file, command.Value, Encoding.ASCII);
                 sources.Add(command.Key, file);
-                state.Changes.Add(new Change { Path = command.Key, InstalledHash = Hash(file), KeepOnUndo = command.Key.StartsWith("Undo", StringComparison.Ordinal) });
+                state.Changes.Add(new Change { Path = command.Key, InstalledHash = Hash(file), KeepOnUndo = command.Key == undoCommand });
             }
             foreach (Change entry in state.Changes)
             {
@@ -160,13 +194,13 @@ namespace FreelancerModernSetup
                     if (file.StartsWith(stage + "\\", StringComparison.OrdinalIgnoreCase)) file = backup + file.Substring(stage.Length);
                     Copy(file, Safe(game, entry.Path));
                     if (!Equal(Hash(Safe(game, entry.Path)), entry.InstalledHash)) throw new IOException("Installed file verification failed: " + entry.Path);
-                    progress(10 + (++done * 85 / state.Changes.Count), "Installing the patch...");
+                    progress(10 + (++done * 85 / state.Changes.Count), textures ? "Installing HD textures..." : "Installing the patch...");
                 }
                 state.Status = "Installed"; WriteState(backup, state); progress(100, "Installed. Your original files are backed up.");
             }
             catch (Exception error)
             {
-                try { Undo(game, delegate { }); }
+                try { UndoComponent(game, delegate { }, textures); }
                 catch (Exception restoreError) { throw new IOException("Installation stopped: " + error.Message + "\nUse Undo Patch to recover. Backup: " + backup + "\n" + restoreError.Message); }
                 throw new IOException("Installation stopped and the original game files were restored. " + error.Message);
             }
@@ -174,9 +208,19 @@ namespace FreelancerModernSetup
 
         public static void Undo(string game, Action<int, string> progress)
         {
+            if (Directory.Exists(Path.Combine(game, HdBackupName)) && ReadState(Path.Combine(game, HdBackupName)).Status != "Restored")
+                UndoTextures(game, progress);
+            UndoComponent(game, progress, false);
+        }
+
+        public static void UndoTextures(string game, Action<int, string> progress)
+        { UndoComponent(game, progress, true); }
+
+        static void UndoComponent(string game, Action<int, string> progress, bool textures)
+        {
             game = Installer.Full(game); Installer.CheckStopped(); Installer.NoLinks(game);
             if (!Directory.Exists(game)) throw new IOException("The game folder does not exist.");
-            string backup = Path.Combine(game, BackupName);
+            string backup = Path.Combine(game, textures ? HdBackupName : BackupName);
             var state = ReadState(backup);
             if (state.Status == "Restored") throw new IOException("The original game has already been restored.");
             Installer.Files(backup);

@@ -1,0 +1,26 @@
+[
+  {
+    "repository": "FLHDE/freelancer-hd-base-interiors-and-planetscapes",
+    "commit": "c91bab78fce289aad247e65b4e549588666ffd23",
+    "url": "https://github.com/FLHDE/freelancer-hd-base-interiors-and-planetscapes/tree/c91bab78fce289aad247e65b4e549588666ffd23",
+    "license": "MIT",
+    "license_sha256": "75e8395c687626d6c7cc17d485a23344714ef0ca16d5676eb38574bc0374daf8",
+    "asset_count": 213
+  },
+  {
+    "repository": "FLHDE/freelancer-hd-character-models",
+    "commit": "8762184d9e58ea0f084991c0e444c04327a1ca4b",
+    "url": "https://github.com/FLHDE/freelancer-hd-character-models/tree/8762184d9e58ea0f084991c0e444c04327a1ca4b",
+    "license": "MIT",
+    "license_sha256": "e7a6799fd3b56a309b297e8633099255cbcea107f60aeb032128624f9f8157ee",
+    "asset_count": 384
+  },
+  {
+    "repository": "FLHDE/freelancer-hd-icons-and-hud-backgrounds",
+    "commit": "9cbbc718c98159f06fbf6aa88f796106a0593d92",
+    "url": "https://github.com/FLHDE/freelancer-hd-icons-and-hud-backgrounds/tree/9cbbc718c98159f06fbf6aa88f796106a0593d92",
+    "license": "MIT",
+    "license_sha256": "75e8395c687626d6c7cc17d485a23344714ef0ca16d5676eb38574bc0374daf8",
+    "asset_count": 120
+  }
+]

@@ -1,5 +1,29 @@
 # Changelog
 
+## Freelancer Modern Patch v1.1.0
+
+Optional HD textures, with the tested core gameplay patch unchanged.
+
+- Includes the freely reusable FLHDE base interior/planetscape, character, and
+  icon/HUD packs: 717 assets, unchanged from their pinned source versions.
+- An HD checkbox in setup; existing Modern Patch users can add the textures
+  without reinstalling the core or resetting FPS settings and saves.
+- Independent HD backups and **Undo HD Textures.cmd**. Full Undo restores HD first.
+- MIT licenses and original contributor credits included.
+
+**Downloads:** choose the small **Freelancer-Modern-Patch-v1.1.0.zip** for core only,
+or **Freelancer-Modern-Patch-HD-v1.1.0.zip** for the complete installer with HD assets.
+Extract, double-click **Install.cmd**, and select your game folder. English retail
+or a recognized Modern Patch installation required. The source ZIP is not an installer.
+
+The HD pack is about 1.4 GB compressed / 2.4 GB of assets. Allow extra space for
+extraction, installation and retained backups. Loading time and memory use may rise.
+Historical FPS measurements predate HD textures. 144 FPS remains experimental.
+After the borderless scaling change, Alt+Tab mutes audio while gameplay continues.
+
+No ship/station texture additions beyond these three packs, music replacements,
+ReShade, increased draw distances or other HD Edition features are included.
+
 ## Freelancer Modern Patch v1.0.1
 
 An easier installer for the same tested v1.0 game patch. No gameplay files changed.

@@ -1,33 +1,34 @@
-# Freelancer Modern Patch v1.0.1
+# Freelancer Modern Patch v1.1.0
 
 A focused single-player patch for the original **Freelancer (2003)**: Windows 11
 launch compatibility, widescreen, borderless scaling and selectable frame limits,
-while preserving the original textures, music, campaign and gameplay balance.
+with optional HD textures while preserving the original music, campaign and gameplay balance.
 
 ## Download and install
 
-Download **Freelancer-Modern-Patch-v1.0.1.zip** from this repository's **Releases**
-section. The automatic GitHub source-code ZIP is for development, not installation.
-An existing unmodified **English retail installation** is required.
+Choose a file from **Releases**:
 
-1. Extract the complete release ZIP into its own folder.
-2. Double-click **Install.cmd**.
-3. Click **Browse**, select your original Freelancer game folder, and click **Install**.
-   Setup patches that folder directly, backing up replaced files first.
-4. Click **Play Freelancer**. Next time, double-click **Play Freelancer.cmd** in
-   your game folder.
-5. In **Options > General > Display**, choose **60**, **120**, or **144 FPS**.
+- **Freelancer-Modern-Patch-v1.1.0.zip** — small core patch, original textures.
+- **Freelancer-Modern-Patch-HD-v1.1.0.zip** — the complete installer with optional
+  HD interiors/planetscapes, characters, icons and HUD backgrounds (~1.4 GB download).
 
-No commands to type, PowerShell policy changes, or administrator launch required.
-Choose a game folder your account can write to. Close Freelancer before installing.
-Keep the extracted patch outside the game folder.
-The game path must use ASCII characters; spaces are supported. Setup explains
-this legacy game limitation before copying if the chosen path is incompatible.
-Existing saves remain unchanged; replaced game files are backed up. Setup checks supported
-original-file hashes, patch conflicts, and the complete payload before installing.
-It does not detect every possible third-party modification; use a clean baseline.
+1. Close the game and extract the ZIP outside your game folder.
+2. Double-click **Install.cmd**, then browse to the game folder.
+3. In the HD download, leave **Install HD textures** checked to include them.
+4. Click **Install**, then **Play Freelancer**.
+
+**Existing Modern Patch v1.0/v1.0.1 users:** select your already-patched game with
+HD textures checked. Setup adds HD assets without reinstalling the core or resetting
+FPS settings/saves. Clean English retail games receive the core first.
+
+The HD download contains about 2.4 GB of assets; allow several GB for extraction,
+installation and backups. Use a writable ASCII game path (spaces work). No commands
+to type or PowerShell-policy changes required. Other mods/languages are unsupported.
+The automatic GitHub source ZIP is for development, not installation.
 
 ## Features
+
+- Optional HD interiors/planetscapes, characters, icons and HUD backgrounds.
 
 - Windows 11 startup and selected crash/save/exit fixes.
 - Widescreen camera, HUD and font adjustments; 2560x1440 is the primary tested size.
@@ -44,7 +45,7 @@ It does not detect every possible third-party modification; use a clean baseline
 
 Tested: launch/exit, new game, docked save/reload, conversations, flight/combat,
 trade lanes, nav map, cockpit/turret cameras, Alt+Tab, menu persistence, scaled
-1080p and pillarboxed 1600x1200. Sampled flight averaged **119.98 FPS** at a 120 cap,
+1080p and pillarboxed 1600x1200. Core-only sampled flight averaged **119.98 FPS** at a 120 cap,
 **143.98 FPS** at a 144 cap, and **143.99 FPS** during scaled 1080p flight.
 See [the test report](patch/TestResults.txt) for sample lengths and qualifications.
 
@@ -56,12 +57,14 @@ saves immediately. Lower render resolutions can look softer than native resoluti
 
 ## Saves and rollback
 
-The installer leaves existing saves untouched; it does not import or back them up. The patched copy uses its own
-`SAVE` folder. Keep it to retain progress. To roll back, close the game, open
-**Undo Modern Patch.cmd** in its folder, and click **Undo Patch**. Replaced originals
-are restored and added game patch files removed. Keep **ModernPatchBackup** while
-the patch is installed. Undo retains saves, removed patch files/settings, and the
-small setup/undo tools. Installing again after Undo archives the previous backup. No personal saves, screenshots, runtime logs or test cheats are bundled.
+**Undo HD Textures.cmd** restores original assets while keeping the core patch,
+FPS settings and saves. **Undo Modern Patch.cmd** restores both components when
+a core backup is available. Older hand-patched copies may only have an HD backup.
+
+Keep **ModernTexturesBackup** and **ModernPatchBackup** while installed. Undo keeps
+saves, removed patch files/settings, and the small helper tools. Reinstallation
+archives the previous restored backup. Existing Documents saves are not imported;
+the patched game uses its own **SAVE** folder. No personal saves or logs are bundled.
 
 ## Source and credits
 
@@ -73,6 +76,11 @@ supported source install. Exact upstream versions/hashes are in
 [sources.json](patch/sources.json); this is not an automatic dependency downloader.
 
 Components include Microsoft's official 1.1 update, JFLP, HUD Shift, FLSharp and
-flplusplus, plus the custom FPS selector, scaling plugin and launcher. No full HD
-Edition overhaul or texture replacement is installed. See [credits and licensing](LICENSES.md)
+flplusplus, plus the custom FPS selector, scaling plugin and launcher. The optional HD pack uses the three reusable FLHDE asset packs; the full HD
+Edition overhaul is not installed. See [credits and licensing](LICENSES.md)
 and the [package guide](patch/README.txt) for details.
+
+HD source versions and licenses: [hd-sources.json](patch/hd-sources.json).
+The assets are bundled unchanged under their MIT notices, including attribution
+to BC46 / C.S. Melis and Freestalker.fr. Texture loading/memory requirements are
+higher; historical FPS measurements were taken before the HD packs were installed.
