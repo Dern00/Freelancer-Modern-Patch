@@ -1,0 +1,68 @@
+Freelancer Modern Patch v1.0 - validation summary
+
+Scope: single-player, English retail baseline, Windows 11. Primary display:
+2560x1440. Default cap 120 FPS; optional 60 and experimental 144 FPS settings.
+Original installation was preserved. No global OS/driver/security changes.
+
+Passed checks
+- Launch, new game, normal exit, relaunch, docked save and reload.
+- Borderless display, physical mouse targeting and Alt+Tab recovery.
+- In-game FPS selector: 60/120/144 apply live, hide on other Options pages,
+  return with the selected value, and persist across restart.
+- Practical 60/120 comparison: normal movement, turning, firing and dialogue,
+  with smoother motion at 120. These were consecutive segments, not a replay
+  with identical inputs or independent simulation-cadence measurements.
+- Optional 144 FPS: flight, extended combat, dock/save/reload, conversations,
+  nav map, turret/cockpit views and complete trade-lane entry/travel/exit.
+  Voices, lips and gestures were reported synchronized. Extended combat,
+  trade-lane and camera checks are user observations, not separate captures.
+- Borderless scaling: 1920x1080 fills the 2560x1440 display; mouse clicks align
+  on the resolution control and FPS arrows. 1600x1200 yields centered 4:3 output
+  with black bars and aligned menu clicks. Alt+Tab and return to 1440p passed.
+- Scaled 1080p flight: normal user-reported steering/aiming and HUD behavior;
+  visual observation confirmed ship/HUD with normal proportions and no clipping.
+
+Measured presentation samples (PresentMon 2.6.0, native Direct3D 8)
+Scene                       Seconds   Mean FPS   P99 ms    Maximum ms
+Menu, cap 60                     15     60.00     17.347     17.548
+Menu, cap 120                    15    120.00      8.748      8.941
+Menu, cap 144                    15    144.00      7.403      7.823
+Flight, cap 60                   45     60.00     17.774     24.476
+Flight/combat, cap 120            45    119.98      8.952     19.899
+Flight, cap 144                  45    143.98      7.436     14.492
+Conversation, cap 120            20    119.96      9.271     19.962
+Conversation, cap 144            45    141.39      7.494    803.610
+Scaled 1080p flight, cap 144      30    143.99      7.431     12.291
+
+The 144 FPS conversation capture includes one 803.61 ms gap. The tester switched
+away during this run and reported normal focus-loss pausing and recovery, but
+foreground state was not logged, so exact attribution is not proven. Excluding
+only that interval would give 143.94 FPS; the table retains the unfiltered mean.
+The tester may also have been unfocused at the beginning of the scaled-flight
+capture. All 4314 positive intervals were retained; none exceeded 16.67 ms.
+Presentation measurements are not simulation correctness or input-latency tests.
+
+Automated checks
+- Baseline and payload SHA256 validation; 29 payload files in this release.
+- Launcher: round-trip all display modes; reject unrelated EXE corruption,
+  truncated EXEs, unknown mode bytes, invalid mode names and the retail EXE.
+- Scaling: aspect fit, centered bars, coordinate bounds and inverse mapping.
+- Custom native components built for x86 with warnings treated as errors.
+- Release archive integrity and included source/component hashes checked.
+
+Known limits
+- 144 FPS retains its EXP. label; this is not a full-campaign certification.
+- Other languages, modded installs, multiplayer, ultrawide monitors and legacy
+  external saves are untested. No multiplayer compatibility claim is made.
+- FPS changes save immediately; stock Default/Cancel do not undo the custom cap.
+- The game normally pauses while unfocused. Background-running was not enabled.
+- Scaled lower-resolution textures/text may be softer than native resolution.
+- Alt+Enter's exclusive-fullscreen bypass exists but was not manually tested
+  after adding scaling. No exhaustive multi-monitor certification is claimed.
+
+Additional legacy fixes enabled for v1.0
+Eleven independent FLSharp 0.9.2 single-player fixes were enabled after reviewing
+their pinned source and hook locations. See BugFixes.txt for the complete list.
+This is a configuration-only change: no new component binary or game asset.
+Rare bug triggers are not all independently reproduced. Focused smoke-test
+results are recorded in BugFixes.txt; multiplayer options remain disabled.

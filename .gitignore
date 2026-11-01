@@ -1,0 +1,17 @@
+downloads/
+working/
+installer-check/
+evidence/
+release/
+**/build/
+**/SAVE/
+**/SCREENSHOTS/
+*.log
+*.bak
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+patch/payload/
+patch/Freelancer-Launcher.exe

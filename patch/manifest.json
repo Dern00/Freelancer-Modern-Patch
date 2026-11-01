@@ -1,0 +1,147 @@
+[
+  {
+    "path": "credits/BinaryEdits.patch",
+    "sha256": "caccc9f2579e8960c1829c1c6dc131fb2eb427fd8db8c71b40bef3b9dfa47dd4",
+    "original_sha256": null
+  },
+  {
+    "path": "credits/BorderlessScale_LICENSE.txt",
+    "sha256": "e763a23bc61b66c70492e2b260c61efe43fc62afae1ba63b52d701c70be94f4a",
+    "original_sha256": null
+  },
+  {
+    "path": "credits/FpsMenu_LICENSE.txt",
+    "sha256": "764e11fa5d7f66ee74a7d9c9287d28873205e7bed2142d5efb85ce4178b6415d",
+    "original_sha256": null
+  },
+  {
+    "path": "credits/HudShift_readme.txt",
+    "sha256": "6ca6740374abb208ec1eaa8deb4bbe9ee6a52b5da55237b510cf8d6ce642cd15",
+    "original_sha256": null
+  },
+  {
+    "path": "credits/jflpdll.txt",
+    "sha256": "b1c764d40e66a6589317cfaaa04d1f84528a3f49b4f84c1a0cef47f09c346ba3",
+    "original_sha256": null
+  },
+  {
+    "path": "DATA/cameras.ini",
+    "sha256": "a69f95e438eb1448a4c25c6ffa1f4bd75a2b2e803071a5d004dda815d05a0da9",
+    "original_sha256": "f756cda3593b25e8791d7bbf7d2b9259c96170598f87ecbbb58bba12be9448cf"
+  },
+  {
+    "path": "exe/BorderlessScale.dll",
+    "sha256": "90b485ab10c8d1f1bc23f787027744981082937281d4574b5902bdcc0aeb53ea",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/CheatMessage.txt",
+    "sha256": "0594086e7ad4a3654db164bd1c3836392f283613747d22a43c140f36df108d75",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/Common.dll",
+    "sha256": "f3c3692a86035c6ed6fbc3d7379cd483612f569264eee866bc996572a99368ad",
+    "original_sha256": "e6c08a7cfdfc5cf8c5d00047cc0b5e361bcaf31cdd91fe89f384d5920dd8c483"
+  },
+  {
+    "path": "exe/dacom.ini",
+    "sha256": "d826a77dceca2a6d268c1563c3bc01a6e782d4c8539aaf4cfcd2b85e889cc33f",
+    "original_sha256": "452e60e3598d7fddd3427e18d275f67dbc9a6174de34868c6e16030dd1b8300b"
+  },
+  {
+    "path": "exe/DALib.dll",
+    "sha256": "1ec85a7e097e9580ca87079f3748803ae28003f2bf63892a8773ac3b12e8d36a",
+    "original_sha256": "499f47184c2c376cdfb5aafa976047f41a143c214c0ccf0af7ed3f95dce4ecf4"
+  },
+  {
+    "path": "exe/flplusplus.dll",
+    "sha256": "55f43c876aa4b43cea332b072193ddc094fab05d9d68eaeed2c6fc8398bcfbcd",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/flplusplus.ini",
+    "sha256": "01871b0b35442e324ee717fca74c4b606ce26d3e0757523ed61bf94c06cb3859",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/flplusplus_license.txt",
+    "sha256": "a9dfc980033ad368524ff57d8ef1e08642b53c50502e106e3ba7ed33d8705e7f",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/FLServer.exe",
+    "sha256": "9e3757cb3e19053309c44f8e77d1c1fb8982c7a31b6b4e096ebd4c70c1d3ce5a",
+    "original_sha256": "4a65cd77b74d5f3b410adade636ba5549f649cfb0e67bfe1507df3b2265eed8b"
+  },
+  {
+    "path": "exe/FLSharp.dll",
+    "sha256": "f2cbfca94cc7bc706c6b36b0291c30b2472774b303300c0ab1308564e29a27b6",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/FLSharp.ini",
+    "sha256": "dd192f822324d9018053731dd59796356c6c321cd08ae59ed7b49166ba9dfefe",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/FLSharp_LICENSE.txt",
+    "sha256": "3c1f67eabf8e78ab5653979c6f5c332019c16d196281d84c7a87889ef8c386fd",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/FpsMenu.dll",
+    "sha256": "ba562d9a13dd90c617b849680279b1480358b4b5a397c236237f5697b7e9e4ac",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/Freelancer.exe",
+    "sha256": "2ccda93638a6465650d78890928b99fb19d6b45c9970b5785040ee65dfed848f",
+    "original_sha256": "009d9b7661e31e794606d30d8ef1b130ead8062b890c87ea75fd6e274df437c3"
+  },
+  {
+    "path": "exe/HudShift.dll",
+    "sha256": "484275a76195dd107ed1e4ca68472ca0cedb3ab56911f107e12fa8d6c1fdfcd2",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/jflp.dll",
+    "sha256": "aeabb75840785b89bb5c7bc4e989d37a4b31c906dd6dede8e5c789f74ebb097c",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/ReadmePatch.htm",
+    "sha256": "247b2c72b08b37e1215f0ffe291302bbc87b878ce84df827282d6f07b8992f98",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/ReadmePatch_DE.htm",
+    "sha256": "c5ddd397f6d84648ea40feaa00ba1aaa4f187249112790029739f59304e3c441",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/ReadmePatch_FR.htm",
+    "sha256": "ebf0827c9ba6613ae4ca83f36bd87e17d06599fabe95c268f7f99099ae59eb2f",
+    "original_sha256": null
+  },
+  {
+    "path": "exe/RemoteClient.dll",
+    "sha256": "650566f3aef72ec919c0081c51800f9522cf473ad9633e9cf545d1aba84186dc",
+    "original_sha256": "d35d7c4058dfe3c4b43f30a36f0d83dc6d45e8c3a4fb2d6b62aee03485c8bb23"
+  },
+  {
+    "path": "exe/Server.dll",
+    "sha256": "7af2c82e345d7694a8d14aa21e1f6c5f8660edf56adc2a1b1ef52af2e147d16e",
+    "original_sha256": "9f4c1ebdcdb4784cbe21e4dd419592e669653bde63835ada41bf9dec947abbd8"
+  },
+  {
+    "path": "dlls/bin/Content.dll",
+    "sha256": "b42a877bcc270193fca79697babcf53fbd440f71112f27e7471b74c9ff127c65",
+    "original_sha256": "b6d426c8fb215d6efe5d9af087fc808ba679c6c31f39dbae4f660f6a5d3a7c1c"
+  },
+  {
+    "path": "DATA/INTERFACE/HudShift.ini",
+    "sha256": "aa299541885b3fa6fe16c67fdc60482f501bb661e7428bd5047847c5f7127e26",
+    "original_sha256": null
+  }
+]

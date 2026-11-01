@@ -1,0 +1,78 @@
+{
+  "original_binaries_commit": "7a9e41b722cd182f42372803b9a2c5966f44d5d5",
+  "official_update": "https://r.je/freelancer/flpatch.exe",
+  "flsharp_tag": "v0.9.2",
+  "jflp_config_package": "https://r.je/freelancer/jflp.exe",
+  "hde_commit": "c0c70a19248eed0109c5f178e0b0df4eb530e9aa",
+  "files": [
+    {
+      "sha256": "38BF1C272271275A3B80D8EC26B0616976069C314AC67C91593FAED87E129D8C",
+      "name": "flpatch.exe"
+    },
+    {
+      "sha256": "55F43C876AA4B43CEA332B072193DDC094FAB05D9D68EAEED2C6FC8398BCFBCD",
+      "name": "flplusplus.dll"
+    },
+    {
+      "sha256": "746EA35FC568842886A157CCAA8D3325D916B047C35D2CBBC4EFFC8E162B6BE7",
+      "name": "FLSharp.zip"
+    },
+    {
+      "sha256": "691CA179D5AD86AD37D597C5037108A1A00C84374164A52065811632DF0C7170",
+      "name": "Freelancer-base.exe"
+    },
+    {
+      "sha256": "3C51BECC885721249715B743CC9484BE19D386EBE8577C98C2CD02A7EE760887",
+      "name": "Freelancer-compatible.exe"
+    },
+    {
+      "sha256": "484275A76195DD107ED1E4CA68472CA0CEDB3AB56911F107E12FA8D6C1FDFCD2",
+      "name": "HudShift.dll"
+    },
+    {
+      "sha256": "AEABB75840785B89BB5C7BC4E989D37A4B31C906DD6DEDE8E5C789F74EBB097C",
+      "name": "jflp.dll"
+    },
+    {
+      "sha256": "A53FA2CF5EE8E96EB697F37DD0E4F7007A5D52E3C2F9CB9A7F6EABBEFEA688E6",
+      "name": "jflp.exe"
+    }
+  ],
+  "native_fps_menu": {
+    "source": "source/native-fps-menu",
+    "license": "AGPL-3.0-or-later",
+    "compiler": "MSVC 19.44 / x86 / static CRT",
+    "source_sha256": "3e42b6a7de539fb0a99a6fbc0a19e26c3e3b387c30fd3469f3c39907c6698ecc",
+    "dll_sha256": "ba562d9a13dd90c617b849680279b1480358b4b5a397c236237f5697b7e9e4ac",
+    "references": [
+      "https://github.com/TheStarport/FLUF/tree/master/modules/FLUF.UI",
+      "https://github.com/BC46/FLSharp/tree/v0.9.2",
+      "https://github.com/FLHDE/flplusplus"
+    ]
+  },
+  "native_launcher": {
+    "source": "source/launcher",
+    "license": "MIT",
+    "runtime": ".NET Framework 4",
+    "sha256": "bc471db953282b3425debf2515503dfbe925974c6246c40041a4418efc0c9fd3",
+    "source_sha256": "a0054f3eb1d3cc4ff58d9df748c25b4ab0e0fa342f18acea9c903ce2ba91b53c"
+  },
+  "native_borderless_scaling": {
+    "source": "source/native-borderless",
+    "license": "MIT",
+    "compiler": "MSVC 19.44 / x86 / static CRT",
+    "dll_sha256": "90b485ab10c8d1f1bc23f787027744981082937281d4574b5902bdcc0aeb53ea",
+    "source_files": {
+      "BorderlessScale.cpp": "ae318856f02b0d42325982cf4fd855396402faedf35dfcba97a4f59273a45e2f",
+      "ScaleMath.h": "4c3408f3afbca3a1489c25be47f63c5189214746b2b8a567fbad23b3768543e2",
+      "ScaleChecks.cpp": "92308bac6a9e5c0160162c2b053b6a42e70928b68b0ee6da10f370341b02e6a4",
+      "build.ps1": "078c55afafc57d6ea94ec0d9a1e82d38e8c10b9e6f574c161d58915d5d6075ba",
+      "README.txt": "01d6b42fc0091cf88c82e6728e316876fa02958437951cbb04d4f22859f7995c",
+      "LICENSE.txt": "e763a23bc61b66c70492e2b260c61efe43fc62afae1ba63b52d701c70be94f4a"
+    },
+    "references": [
+      "https://github.com/BC46/FLSharp/tree/v0.9.2",
+      "https://alpyne.me/archive/dx8/directx_cpp/graphics/reference/cpp/d3d/interfaces/idirect3ddevice8/present.htm"
+    ]
+  }
+}

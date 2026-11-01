@@ -1,0 +1,55 @@
+Freelancer Modern Patch v1.0 - selected legacy fixes
+
+This is a focused single-player selection, not the entire HD Edition overhaul.
+Fixes come from the included official update, JFLP, FLSharp 0.9.2 and the credited
+binary edits. Component versions and hashes are recorded in sources.json.
+
+Previously enabled FLSharp fixes
+- Expanded/corrected resolution handling and base-information menu spacing.
+- Exit deadlocks and quit-message handling.
+- Malformed-save loading, rare alchemy crash and missing-DLL crash guards.
+- Dealer menus failing to open on repeated clicks, and dealer-menu crashes.
+- Windowed cursor visibility, mouse warping and initial mouse position.
+- Camera-switch stutter and frame-rate-dependent third-person camera movement.
+
+Additional single-player fixes enabled for v1.0
+- waypoint_fixes: keep waypoints from clearing at matching coordinates in another
+  system; prevent targeting the player's own ship as a nav-map waypoint.
+- waypoint_name_fixes: correct waypoint labels, numbering and mission infocards.
+- trade_lane_lights_fix: restore ring lights after a disrupted lane recovers.
+- flight_controls_fix: synchronize auto-level/rotation-lock state when a ship is
+  initialized after launching or loading, preserving the intended control state.
+- blank_faction_fix: show None for factionless ships instead of an empty label.
+- shield_capacity_fix: display usable shield capacity after the offline threshold;
+  this changes the information shown, not the shield's actual strength.
+- pilot_names_fix: avoid truncating long NPC names in information/communication text.
+- maneuver_frame_fix: initialize the maneuver HUD before showing it after undocking.
+- equip_stat_flicker_fix: avoid transient equipment-information flicker when moving
+  equipment or buying the last available copy of an item.
+- sub_target_fix: prevent sub-target hotkeys from corrupting the Contact List view.
+- formation_list_fix: prevent Formation List hotkey display errors outside formation.
+
+Other included corrections
+- JFLP widescreen field of view, fonts, cinematic framing and LOD-transition fixes.
+- Checked executable timing-delay and separate cinematic frame-limit corrections.
+- Custom borderless scaling with aspect preservation and mouse-coordinate mapping.
+
+The eleven additional FLSharp features were reviewed in the pinned source and
+selected independently. Their hook locations do not overlap the custom FPS-menu
+or borderless-scaling hooks. No new DLL build or HD assets are needed.
+Network/multiplayer options, ammo/balance changes, extended lighting limits and
+optional feature restoration remain disabled. Rare bug triggers are not all
+independently reproduced; see TestResults.txt for actual validation coverage.
+
+Validation of the additional fixes
+- Verified active hook targets inside the loaded FLSharp module for all eleven
+  features using read-only process inspection.
+- Tester confirmed normal equipment/inventory menus after the requested equipment
+  check, followed by launching, nav-map/waypoint use and brief flight.
+- HUD, waypoint labels and flight controls were reported normal after the restart.
+- No claim is made that every rare original bug trigger was reproduced separately.
+
+Upstream references
+https://github.com/BC46/FLSharp/tree/v0.9.2
+https://github.com/FLHDE/freelancer-hd-edition/blob/main/EXE/FLSharp.ini
+https://adoxa.altervista.org/freelancer/
