@@ -49,8 +49,9 @@ trade lanes, nav map, cockpit/turret cameras, Alt+Tab, menu persistence, scaled
 See [the test report](patch/TestResults.txt) for sample lengths and qualifications.
 
 144 FPS retains an **EXP.** label. Other languages, modded installs, multiplayer,
-ultrawide monitors and old external saves are untested. The game pauses when
-unfocused. The stock Default/Cancel controls do not undo an FPS selection, which
+ultrawide monitors and old external saves are untested. After the borderless scaling
+change, the tester reports that Alt+Tab mutes audio while gameplay continues in the
+background; switching away does not pause the game. The stock Default/Cancel controls do not undo an FPS selection, which
 saves immediately. Lower render resolutions can look softer than native resolution.
 
 ## Saves and rollback

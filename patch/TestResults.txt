@@ -57,8 +57,10 @@ Conversation, cap 144            45    141.39      7.494    803.610
 Scaled 1080p flight, cap 144      30    143.99      7.431     12.291
 
 The 144 FPS conversation capture includes one 803.61 ms gap. The tester switched
-away during this run and reported normal focus-loss pausing and recovery, but
-foreground state was not logged, so exact attribution is not proven. Excluding
+away during this run, but foreground state was not logged, so exact attribution
+is not proven. Later testing after the borderless scaling change found that
+Alt+Tab mutes audio while gameplay continues; this gap is not evidence of a
+gameplay pause in the released build. Excluding
 only that interval would give 143.94 FPS; the table retains the unfiltered mean.
 The tester may also have been unfocused at the beginning of the scaled-flight
 capture. All 4314 positive intervals were retained; none exceeded 16.67 ms.
@@ -77,7 +79,9 @@ Known limits
 - Other languages, modded installs, multiplayer, ultrawide monitors and legacy
   external saves are untested. No multiplayer compatibility claim is made.
 - FPS changes save immediately; stock Default/Cancel do not undo the custom cap.
-- The game normally pauses while unfocused. Background-running was not enabled.
+- After the borderless scaling change, the tester reports that Alt+Tab mutes
+  audio while gameplay continues in the background. Switching away does not
+  pause the game. This is a user observation, not a new instrumented capture.
 - Scaled lower-resolution textures/text may be softer than native resolution.
 - Alt+Enter's exclusive-fullscreen bypass exists but was not manually tested
   after adding scaling. No exhaustive multi-monitor certification is claimed.
