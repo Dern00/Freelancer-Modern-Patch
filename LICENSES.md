@@ -6,6 +6,7 @@ licensed codebase. Existing notices remain with their components.
 - Custom FPS menu: **AGPL-3.0-or-later**, with corresponding source and license in
   `native-fps-menu`. Native UI references include TheStarport/FLUF and BC46/FLSharp.
 - Custom borderless scaling: **MIT**, source/license in `native-borderless`.
+- Custom graphical installer: **MIT**, source and notice in `patch/source/installer`.
 - Custom launcher: **MIT**, source and notice in `patch/source/launcher`.
 - FLSharp: **MIT**, BC46; license reproduced in `licenses/FLSharp_LICENSE.txt`.
   Its C.S. Melis copyright attribution is reproduced from the

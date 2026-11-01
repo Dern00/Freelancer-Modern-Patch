@@ -1,31 +1,42 @@
-Freelancer Modern Patch v1.0
-Release: v1.0. Focused single-player validation completed; see TestResults.txt.
+Freelancer Modern Patch v1.0.1
+Release: v1.0.1. Installer update; game payload unchanged from v1.0. Focused single-player validation completed; see TestResults.txt.
 Menu, opening-cinematic and controlled-flight samples measured 120 FPS; see
 TestResults.txt for coverage and frame-time statistics.
 The tested bar conversation now also averages 119.96 FPS, with user-confirmed
 normal voice/animation synchronization after the cinematic-limit fix.
 
 INSTALL
-Extract this patch folder. Open PowerShell here and run:
-  .\Install.ps1 -Source 'C:\Games\Freelancer' -Destination 'C:\Games\Freelancer-Modern'
-Substitute your own paths. Destination must not already exist. The installer
-checks original file hashes and refuses modified/incompatible installations.
-This build supports the inspected English retail baseline, not arbitrary mods.
-Run the new copy's EXE\Freelancer.exe normally, without compatibility settings.
-No administrator rights or global Windows changes are required by this patch.
+1. Extract the complete release ZIP into its own folder.
+2. Double-click Install.cmd (or Freelancer-Setup.exe).
+3. Click Browse and choose the original Freelancer folder containing EXE and DATA.
+4. Click Install. Setup patches the selected folder directly.
+5. Click Play Freelancer. Next time, open Play Freelancer.cmd in your game folder.
 
-If PowerShell scripts are blocked, use this manual method without changing policy:
-1. Start with an unmodified English retail installation. Do not overlay a modded copy.
-2. Copy the entire game folder to a NEW folder, e.g. C:\Games\Freelancer-Modern.
-3. Copy the CONTENTS of this archive's payload folder into that new game folder,
-   merging DATA, EXE, DLLS and credits, and replace files in the new copy only.
-4. Double-click Freelancer-Launcher.exe from this extracted patch folder and
-   select the NEW copy's EXE\Freelancer.exe. Keep manifest.json beside the launcher.
-The scripted installer validates all source/payload hashes before copying. Manual
-copying does not perform that preflight; the launcher still checks the patched EXE.
-Neither method imports old saves automatically. Back up any old saves separately.
+Setup backs up replaced files in ModernPatchBackup before changing the game.
+It checks the supported original files and every payload file before installing,
+then verifies the installed payload. An unmodified English retail game is required.
+The checks cover replaced files and patch conflicts, not every possible third-party mod.
+No PowerShell commands or execution-policy changes are needed. Choose a folder
+your account can write to; administrator mode is not required by the patch.
+Keep the extracted patch outside the game folder. Close Freelancer before installing.
+Use a game path without accented or other non-English characters; spaces work.
+
+Your existing saves are left untouched and are not imported or backed up by this
+installer. The patched game uses its own SAVE folder. Keep that folder to retain
+your progress. The older Install.ps1 is a separate-copy helper for advanced users.
+
+UNDO
+Close the game, open Undo Modern Patch.cmd in the game folder, and click Undo Patch.
+Setup restores verified original files and removes added game patch files. Saves
+are kept. Current patch files/settings are retained in ModernPatchBackup, and the
+small ModernPatch tool folder and Undo entry remain for reference. Do not delete
+ModernPatchBackup while the patch is installed: Undo needs it.
+After Undo, you can install again; the previous backup is archived automatically.
+An ordinary installation error triggers restoration. If power loss interrupts the
+operation, reopen setup and use Undo Patch to recover from the recorded backup.
 
 BORDERLESS / FULLSCREEN
+Use Play Freelancer.cmd in your game folder for normal borderless play.
 Double-click Freelancer-Launcher.exe and select the patched copy's
 EXE\Freelancer.exe. It starts borderless and preserves your chosen FPS cap.
 Keep the launcher beside manifest.json. It does not require PowerShell scripts
@@ -76,9 +87,9 @@ Driver/RTSS overrides may supersede these settings. Do not change global setting
 
 SAVES AND ROLLBACK
 The patched copy stores settings and saves in its SAVE folder, keeping the
-original Documents profile separate. Existing Documents saves are backed up
-to OriginalSavesBackup by the installer. They are not automatically imported.
-To roll back, close this copy and launch the original installation.
+original Documents profile separate. Existing saves are left untouched.
+The new installer does not import or back up saves automatically.
+To roll back, close the game and use Undo Modern Patch.cmd as described above.
 Keep the patched SAVE folder if you want to retain new progress.
 
 TEST CHECKLIST

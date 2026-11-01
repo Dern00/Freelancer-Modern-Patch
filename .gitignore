@@ -15,3 +15,4 @@ release/
 *.lib
 patch/payload/
 patch/Freelancer-Launcher.exe
+patch/Freelancer-Setup.exe

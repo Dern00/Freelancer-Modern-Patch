@@ -1,4 +1,4 @@
-# Freelancer Modern Patch v1.0
+# Freelancer Modern Patch v1.0.1
 
 A focused single-player patch for the original **Freelancer (2003)**: Windows 11
 launch compatibility, widescreen, borderless scaling and selectable frame limits,
@@ -6,29 +6,26 @@ while preserving the original textures, music, campaign and gameplay balance.
 
 ## Download and install
 
-Download **Freelancer-Modern-Patch-v1.0.zip** from this repository's **Releases**
+Download **Freelancer-Modern-Patch-v1.0.1.zip** from this repository's **Releases**
 section. The automatic GitHub source-code ZIP is for development, not installation.
 An existing unmodified **English retail installation** is required.
 
-1. Extract the release ZIP into its own folder.
-2. Open PowerShell there and run (substitute your paths):
+1. Extract the complete release ZIP into its own folder.
+2. Double-click **Install.cmd**.
+3. Click **Browse**, select your original Freelancer game folder, and click **Install**.
+   Setup patches that folder directly, backing up replaced files first.
+4. Click **Play Freelancer**. Next time, double-click **Play Freelancer.cmd** in
+   your game folder.
+5. In **Options > General > Display**, choose **60**, **120**, or **144 FPS**.
 
-   ```powershell
-   .\Install.ps1 -Source 'C:\Games\Freelancer' -Destination 'C:\Games\Freelancer-Modern'
-   ```
-
-   The destination must not exist. The installer checks the baseline and payload,
-   creates a separate game copy, and leaves the source unchanged.
-3. Double-click **Freelancer-Launcher.exe** and select the new copy's
-   **EXE\Freelancer.exe**. Keep the launcher beside **manifest.json**.
-4. In **Options > General > Display**, choose **60**, **120**, or **144 FPS**.
-   The choice applies immediately and is remembered. New installs default to 120.
-
-**If PowerShell blocks scripts:** copy the original game into a new folder yourself,
-then copy the **contents** of the release's `payload` folder into that new copy,
-merging folders and replacing files there. Launch it as in step 3. This manual
-method omits the installer's source-file preflight; use only the supported clean
-baseline. No execution-policy change or administrator launch is required.
+No commands to type, PowerShell policy changes, or administrator launch required.
+Choose a game folder your account can write to. Close Freelancer before installing.
+Keep the extracted patch outside the game folder.
+The game path must use ASCII characters; spaces are supported. Setup explains
+this legacy game limitation before copying if the chosen path is incompatible.
+Existing saves remain unchanged; replaced game files are backed up. Setup checks supported
+original-file hashes, patch conflicts, and the complete payload before installing.
+It does not detect every possible third-party modification; use a clean baseline.
 
 ## Features
 
@@ -58,15 +55,17 @@ saves immediately. Lower render resolutions can look softer than native resoluti
 
 ## Saves and rollback
 
-The installer backs up existing Documents saves, but does not import them. Manual
-installation requires making that backup yourself. The patched copy uses its own
-`SAVE` folder. Keep it to retain progress; return to the untouched original game to
-roll back. No personal saves, screenshots, runtime logs or test cheats are bundled.
+The installer leaves existing saves untouched; it does not import or back them up. The patched copy uses its own
+`SAVE` folder. Keep it to retain progress. To roll back, close the game, open
+**Undo Modern Patch.cmd** in its folder, and click **Undo Patch**. Replaced originals
+are restored and added game patch files removed. Keep **ModernPatchBackup** while
+the patch is installed. Undo retains saves, removed patch files/settings, and the
+small setup/undo tools. Installing again after Undo archives the previous backup. No personal saves, screenshots, runtime logs or test cheats are bundled.
 
 ## Source and credits
 
 Custom native sources are in `native-fps-menu` and `native-borderless`; launcher
-source is in `patch/source/launcher`. Build scripts are included. Native DLLs need
+source is in `patch/source/launcher`; installer source is in `patch/source/installer`. Build scripts are included. Native DLLs need
 Visual Studio C++ x86 tools and a Windows SDK; the launcher uses .NET Framework.
 `build_patch.py` assembles a payload from staged dependencies in `downloads` and a
 supported source install. Exact upstream versions/hashes are in

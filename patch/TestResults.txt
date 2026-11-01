@@ -1,3 +1,25 @@
+Freelancer Modern Patch v1.0.1 - installer validation
+
+- Native installer builds with warnings treated as errors.
+- 30 assertions passed: invalid source, overlapping folders, corrupt payload,
+  modified original, unsafe/duplicate manifest paths, unexpected payload files,
+  unsupported game-path characters, backup creation, active-install rejection,
+  corrupt-backup refusal, restoring a missing EXE, keeping saves/settings,
+  reinstalling after Undo, and rollback after a simulated installation error.
+- Full in-place installation and Undo checked on a disposable clean game copy.
+  All 29 payload hashes and nine original-file backups/restorations verified.
+- The generated Play Freelancer.cmd launched the patched copy to its main menu,
+  without asking for a game path. No campaign save was loaded for this check.
+- An accented destination reproduced exit code 1; renaming the identical copy
+  to an ASCII path restored startup. Setup now rejects non-ASCII destinations
+  before copying, with a readable explanation. Spaces are supported.
+- Folder picker/cancellation and revised one-folder window inspected. In-place
+  install/Undo validation exercises the same engine through its automated mode.
+- Privacy scan includes source, documents, executable strings and debug records;
+  no tester identity, local account paths, saves, screenshots or logs bundled.
+- All 29 game payload files are byte-identical to the v1.0 release. Previous
+  gameplay results below apply to that unchanged payload, not a new playthrough.
+
 Freelancer Modern Patch v1.0 - validation summary
 
 Scope: single-player, English retail baseline, Windows 11. Primary display:

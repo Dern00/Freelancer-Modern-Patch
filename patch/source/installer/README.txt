@@ -1,0 +1,50 @@
+Freelancer Modern Patch installer and undo tool
+
+Install.cmd opens Freelancer-Setup.exe, a native .NET Framework Windows Forms app.
+Choose an unmodified English retail game folder and click Install. It patches that
+folder directly. Saves are untouched. No PowerShell policy changes are needed.
+Build.ps1 compiles Installer.cs, PatchEngine.cs and SetupWindow.cs using the
+Windows .NET Framework C# compiler; no external package dependencies are required.
+
+Before modifying files, setup checks all payload hashes and supported originals,
+prepares verified backups and records every change in ModernPatchBackup/state.json.
+The original-file backup is verified before Undo writes anything. Undo preserves
+current patch files/settings in removed-patch-files, restores originals and removes
+added game files. It leaves saves, backups, and the small ModernPatch setup/undo
+tools. A repeated install after Undo archives the previous backup automatically.
+An ordinary install exception triggers restoration. An interrupted restore can be
+retried. Users should retain ModernPatchBackup until they no longer need Undo.
+
+Folders containing links/junctions are rejected. Game paths must use ASCII; an
+accented path reproduced an immediate game exit. Spaces work. The extracted
+package path can be Unicode. Manifest hashes verify integrity, not publisher
+identity. Original-file checks are not a complete scan for every possible mod.
+
+InstallerChecks.cs tests preflight, backups, undo, preservation and rollback.
+Compile with Installer.cs and PatchEngine.cs, /main:InstallerChecks /target:exe,
+and references System.Windows.Forms.dll, System.Drawing.dll and
+System.Web.Extensions.dll. Pass an existing scratch folder to the test EXE.
+Noninteractive integration modes use the exact same engine as the GUI:
+  Freelancer-Setup.exe --install-check "game folder" "result text file"
+  Freelancer-Setup.exe --undo-check "game folder" "result text file"
+Exit codes: 0 success, 1 failure. --undo "game folder" opens the Undo interface.
+
+MIT License
+
+Copyright (c) 2026 Freelancer Modern Patch contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to
+do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

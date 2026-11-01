@@ -1,5 +1,29 @@
 # Changelog
 
+## Freelancer Modern Patch v1.0.1
+
+An easier installer for the same tested v1.0 game patch. No gameplay files changed.
+
+- Double-click **Install.cmd**, choose your game folder, and click **Install**.
+- Patches the selected game folder directly, with file checks and original backups.
+- Adds **Play Freelancer.cmd** and **Undo Modern Patch.cmd** to the game folder.
+- Undo restores originals and removes added patch files while preserving saves.
+- No PowerShell commands or execution-policy changes needed.
+- Catches incompatible paths before installing: the game path must use ASCII
+  characters (ordinary English letters, numbers and punctuation); spaces work.
+- Existing saves are left untouched; they are not imported or backed up automatically.
+- Keep **ModernPatchBackup** for Undo. Removed patch files/settings and the small
+  setup/undo tools remain after restoration. Reinstalling archives the old backup.
+
+Download **Freelancer-Modern-Patch-v1.0.1.zip** and extract it before running setup.
+Requires an unmodified English retail installation in a writable game folder.
+Close Freelancer first and keep the extracted patch outside that folder.
+The source-code ZIP is for developers; use the named patch ZIP to install.
+
+The game fixes, 120 FPS default, experimental 144 FPS option, and v1.0 limitations
+are unchanged. Existing v1.0 players do not need to reinstall. This installer
+requires the clean baseline; it does not upgrade a previously modded game.
+
 ## Freelancer Modern Patch v1.0
 
 First release of the focused Windows 11, widescreen and high-FPS patch for
