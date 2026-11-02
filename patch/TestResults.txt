@@ -1,3 +1,21 @@
+Folder-permission hotfix validation (November 1, 2026)
+- Protected-folder GUI install automatically restarted with administrator access;
+  selected path and unchecked HD choice retained. All core payload hashes matched.
+- Resumed elevated Undo restored every original and removed added core files.
+  Original disposable fixture access rules restored and verified after the test.
+- UAC is disabled on the test PC, so elevation succeeded without a visible consent
+  dialog. Visible consent/decline on a UAC-enabled PC remains untested.
+- Updated helper binaries remain intact after Undo; backups remain usable.
+- 13 access checks passed, including real denied writes in a disposable protected
+  folder and a successful elevated child write. Original test ACL restored.
+- Directory probes leave no temporary files; file probes preserve contents.
+- Read-only/missing paths and Windows arguments (spaces, quotes, trailing slashes,
+  Unicode and shell metacharacters) checked. Elevation starts the EXE directly.
+- 32 core, 18 HD and 14 detection assertions passed. Display-mode round-trip
+  checks passed; unrelated corruption and retail executables remain rejected.
+- Both apps keep asInvoker manifests. No ACL or security-policy changes are made
+  by the production setup/launcher. Administrator denial stops without looping.
+
 Installer hotfix validation (November 1, 2026)
 - Reproduced the exact display-mode error with the old installer and a supported
   clean retail EXE, without changing that original installation.
@@ -18,7 +36,7 @@ Freelancer Modern Patch v1.1.0 - optional HD validation
   icons/HUD 2048. This is not a claim that every texture has one fixed resolution.
 - No HD asset path overlaps a core patch file. The HUD set's matching mouse.ini
   is included; no music, shader wrapper, draw-distance or other HDE overhaul files.
-- 30 core installer assertions and 18 HD installer assertions passed, including
+- 32 core installer assertions and 18 HD installer assertions passed, including
   damaged-file rejection, backups, save/FPS preservation, reinstall and rollback.
 - Full HD installation verified all 726 entries (717 assets and nine notices),
   plus all 717 original backups. HD-only Undo restored every original asset while

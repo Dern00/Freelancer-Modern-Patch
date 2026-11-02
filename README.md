@@ -22,8 +22,11 @@ HD textures checked. Setup adds HD assets without reinstalling the core or reset
 FPS settings/saves. Clean English retail games receive the core first.
 
 The HD download contains about 2.4 GB of assets; allow several GB for extraction,
-installation and backups. Use a writable ASCII game path (spaces work). No commands
-to type or PowerShell-policy changes required. Other mods/languages are unsupported.
+installation and backups. Use an ASCII game path (spaces work).
+Setup, Undo and the Play launcher automatically request administrator permission
+when the game folder is protected. Declining cancels the operation. A writable
+folder such as `C:\Games\Freelancer` avoids these prompts. No security settings
+or PowerShell policies need changing. Other mods/languages are unsupported.
 The automatic GitHub source ZIP is for development, not installation.
 
 ## Features

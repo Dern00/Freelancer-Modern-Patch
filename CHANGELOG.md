@@ -7,6 +7,15 @@ incorrectly stopped by an "unrecognized display-mode changes" message. Existing
 v1.1.0 download filenames and links are retained. Download the ZIP again if you
 encountered that error. The game and HD asset payloads are unchanged.
 
+**Folder-permission hotfix:** Setup, Undo and the Play launcher now request Windows
+administrator permission automatically when the game folder is protected, including
+Program Files. The launcher checks access for portable saves and FPS settings even
+when the display mode is already selected. Declining the prompt cancels cleanly;
+folder permissions and security settings are not changed. Use the supplied Play
+command instead of launching EXE/Freelancer.exe directly.
+For an already-installed copy, the README explains how to update just the two
+helper executables from the small core ZIP, without downloading HD assets again.
+
 Optional HD textures, with the tested core gameplay patch unchanged.
 
 - Includes the freely reusable FLHDE base interior/planetscape, character, and

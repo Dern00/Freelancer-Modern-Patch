@@ -22,8 +22,21 @@ assets. Core settings and saves are preserved. No core reinstall is required.
 Clean installs receive the core patch first, followed by HD if selected. If the
 HD step fails, the core remains installed and setup explains how to retry.
 
-Use a writable game folder with an ASCII path; spaces work. No PowerShell
-commands, execution-policy changes or administrator launch are required.
+UPDATING AN ALREADY-INSTALLED v1.1.0 COPY FOR THE PERMISSION FIX
+Close the game and setup. From the new small core ZIP, copy Freelancer-Launcher.exe
+and Freelancer-Setup.exe into the game's existing ModernPatch folder, replacing
+those two files. If ModernTextures exists, copy both files there as well. Accept
+Windows permission to replace them if requested. Keep manifest.json, the backups,
+and all other files. This updates the launch/Undo helpers without reinstalling
+the game or HD assets. Then use the usual Play command in the game folder.
+
+Use a game folder with an ASCII path; spaces work. Setup, Undo and the launcher
+request Windows administrator permission automatically when the game folder is
+protected (for example, Program Files). Accept the Windows prompt to continue.
+Cancelling leaves the operation unstarted. No security settings need changing.
+Use Play Freelancer HD.cmd or Play Freelancer.cmd, rather than EXE/Freelancer.exe.
+A writable folder such as C:\Games\Freelancer avoids permission prompts.
+No PowerShell commands or execution-policy changes are required.
 Unrelated mods, other language editions and already-modified target textures
 are not supported. Payload and original-file checks run before modification.
 
@@ -54,8 +67,9 @@ BORDERLESS / FULLSCREEN
 Use Play Freelancer.cmd in your game folder for normal borderless play.
 Double-click Freelancer-Launcher.exe and select the patched copy's
 EXE\Freelancer.exe. It starts borderless and preserves your chosen FPS cap.
-Keep the launcher beside manifest.json. It does not require PowerShell scripts
-or administrator rights; startup errors are shown in a dialog.
+Keep the launcher beside manifest.json. It does not require PowerShell scripts.
+Protected game folders trigger a Windows administrator prompt. Startup errors
+are shown in a dialog.
 For shortcuts, use Freelancer-Launcher.exe with these arguments:
   "C:\Games\Freelancer-Modern" Borderless
 Use Fullscreen or Windowed instead of Borderless for the other modes.

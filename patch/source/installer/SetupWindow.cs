@@ -15,7 +15,7 @@ namespace FreelancerModernSetup
         readonly Label status = new Label(); readonly ProgressBar bar = new ProgressBar(); readonly BackgroundWorker worker = new BackgroundWorker();
         bool restoring, restoringHd, wantHd;
         string installed;
-        public SetupWindow(string initial)
+        public SetupWindow(string initial, string resume = null)
         {
             Text = "Freelancer Modern Patch Setup"; ClientSize = new Size(700, 410); Font = new Font("Segoe UI", 10);
             AutoScaleMode = AutoScaleMode.Dpi; FormBorderStyle = FormBorderStyle.FixedDialog; MaximizeBox = false; StartPosition = FormStartPosition.CenterScreen;
@@ -64,8 +64,34 @@ namespace FreelancerModernSetup
                 status.Text = restoringHd ? "Original textures restored. Core patch, FPS settings and saves are kept." : restoring ? "Original game files restored. Your saves are kept.\nBackups and the Undo tools remain for reference." : wantHd ? "HD textures are ready! Use Play Freelancer HD.cmd in your game folder.\nUndo HD Textures.cmd restores textures while keeping the core patch." : "Ready to play! Use Play Freelancer.cmd in your game folder next time.\nUndo Modern Patch.cmd restores the original files. Saves stay untouched.";
             };
             FormClosing += delegate(object sender, FormClosingEventArgs args) { if (worker.IsBusy) args.Cancel = true; };
+            if (resume != null)
+            {
+                hd.Checked = resume == "install-hd";
+                Shown += delegate { BeginInvoke(new Action(delegate { Start(resume == "undo" || resume == "undo-hd", resume == "undo-hd"); })); };
+            }
         }
-        void Start(bool restore, bool textures) { restoring = restore; restoringHd = textures; wantHd = hd.Checked; EnableInputs(false); play.Visible = false; bar.Value = 0; worker.RunWorkerAsync(game.Text); }
+        void Start(bool restore, bool textures)
+        {
+            try
+            {
+                string path = Installer.Full(game.Text);
+                Installer.NoLinks(path); Installer.CheckStopped();
+                if (!File.Exists(Path.Combine(path, "EXE", "Freelancer.exe")))
+                    throw new IOException("Select the Freelancer folder containing EXE and DATA.");
+                string denied = GameAccess.FindDeniedDirectory(new[] { path, Path.Combine(path, "EXE"), Path.Combine(path, "DATA") });
+                if (denied != null)
+                {
+                    string operation = restore ? (textures ? "undo-hd" : "undo") : (hd.Checked ? "install-hd" : "install");
+                    status.Text = "Windows needs administrator permission for this game folder.";
+                    if (GameAccess.RequestAdministrator(denied, "--resume", operation, path)) Close();
+                    else status.Text = "Permission request cancelled. No patch files were changed.\nClick again to retry, or select a writable game folder.";
+                    return;
+                }
+                restoring = restore; restoringHd = textures; wantHd = hd.Checked;
+                EnableInputs(false); play.Visible = false; bar.Value = 0; worker.RunWorkerAsync(path);
+            }
+            catch (Exception error) { MessageBox.Show(this, error.Message, "Setup needs attention", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+        }
         void EnableInputs(bool value) { game.Enabled = browse.Enabled = install.Enabled = undo.Enabled = undoHd.Enabled = value; hd.Enabled = value && File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "hd-manifest.json")); }
         void Add(Control control, int x, int y, int width, int height) { control.SetBounds(x, y, width, height); Controls.Add(control); }
     }
@@ -86,6 +112,12 @@ namespace FreelancerModernSetup
                 } catch (Exception error) { File.WriteAllText(args[2], error.Message); return 1; }
             }
             Application.EnableVisualStyles(); Application.SetCompatibleTextRenderingDefault(false);
+            if (args.Length == 3 && args[0] == "--resume")
+            {
+                if (!GameAccess.IsAdministrator() || (args[1] != "install" && args[1] != "install-hd" && args[1] != "undo" && args[1] != "undo-hd"))
+                { MessageBox.Show("The administrator restart was not valid. Open Install.cmd and try again.", "Setup needs attention"); return 1; }
+                Application.Run(new SetupWindow(args[2], args[1])); return 0;
+            }
             Application.Run(new SetupWindow(args.Length == 2 && (args[0] == "--undo" || args[0] == "--undo-hd") ? args[1] : null)); return 0;
         }
     }

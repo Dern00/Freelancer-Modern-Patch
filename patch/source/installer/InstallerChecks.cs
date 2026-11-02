@@ -47,8 +47,12 @@ static class InstallerChecks
         Put(originalBackup, "bad backup"); Reject(delegate { PatchEngine.Undo(game, delegate { }); }, "Backup file check failed");
         Require(File.ReadAllText(exe) == "patched", "Bad backup changed game"); Put(originalBackup, "original");
         Put(Path.Combine(game, "EXE/new.ini"), "changed settings");
+        Put(Path.Combine(game, "ModernPatch/Freelancer-Launcher.exe"), "updated launcher");
+        Put(Path.Combine(game, "ModernPatch/Freelancer-Setup.exe"), "updated setup");
         File.Delete(exe); PatchEngine.Undo(game, delegate { });
         Require(File.ReadAllText(exe) == "original", "Original not restored");
+        Require(File.ReadAllText(Path.Combine(game, "ModernPatch/Freelancer-Launcher.exe")) == "updated launcher", "Undo lost updated launcher helper");
+        Require(File.ReadAllText(Path.Combine(game, "ModernPatch/Freelancer-Setup.exe")) == "updated setup", "Undo lost updated setup helper");
         Require(!File.Exists(Path.Combine(game, "EXE/new.ini")), "Added file not removed");
         Require(File.ReadAllText(Path.Combine(game, "ModernPatchBackup/removed-patch-files/EXE/new.ini")) == "changed settings", "Changed settings not retained");
         Require(!File.Exists(Path.Combine(game, "Play Freelancer.cmd")), "Play entry not removed");

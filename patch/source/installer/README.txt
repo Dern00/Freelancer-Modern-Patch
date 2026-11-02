@@ -3,6 +3,12 @@ Freelancer Modern Patch installer and undo tool
 Install.cmd opens Freelancer-Setup.exe, a native .NET Framework Windows Forms app.
 Choose an unmodified English retail game folder and click Install. It patches that
 folder directly. Saves are untouched. No PowerShell policy changes are needed.
+Before starting Install or either Undo operation, the GUI checks write access.
+Protected folders trigger Windows administrator consent and resume the selected
+operation with the same game path and HD choice. Cancelling leaves setup open
+without starting the operation. Already-elevated access denial stops with advice.
+No game-folder ACLs or system security settings are changed. Both manifests stay
+asInvoker so writable folders do not require administrator permission.
 Build.ps1 compiles Installer.cs, PatchEngine.cs and SetupWindow.cs using the
 Windows .NET Framework C# compiler; no external package dependencies are required.
 It also compiles the existing launcher source to share its complete EXE validation.

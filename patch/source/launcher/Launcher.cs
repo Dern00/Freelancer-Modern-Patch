@@ -8,6 +8,82 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
+using System.ComponentModel;
+using System.Security.Principal;
+using System.Text;
+
+// Shared by setup and the launcher. Never changes folder ACLs or system policy.
+public static class GameAccess
+{
+    public static bool IsAdministrator()
+    {
+        using (var identity = WindowsIdentity.GetCurrent())
+            return new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
+    }
+
+    public static string Quote(string value)
+    {
+        var result = new StringBuilder("\""); int slashes = 0;
+        foreach (char c in value)
+        {
+            if (c == '\\') { slashes++; continue; }
+            result.Append('\\', c == '"' ? slashes * 2 + 1 : slashes);
+            result.Append(c); slashes = 0;
+        }
+        return result.Append('\\', slashes * 2).Append('"').ToString();
+    }
+
+    public static string FindDeniedDirectory(IEnumerable<string> folders)
+    {
+        foreach (string folder in folders.Distinct(StringComparer.OrdinalIgnoreCase))
+        {
+            if (!Directory.Exists(folder)) throw new DirectoryNotFoundException("Game folder not found: " + folder);
+            string probe = Path.Combine(folder, ".modern-patch-access-" + Guid.NewGuid().ToString("N") + ".tmp");
+            try
+            {
+                using (new FileStream(probe, FileMode.CreateNew, FileAccess.Write, FileShare.None, 1, FileOptions.DeleteOnClose)) { }
+            }
+            catch (UnauthorizedAccessException) { return folder; }
+        }
+        return null;
+    }
+
+    public static string FindDeniedFile(IEnumerable<string> files)
+    {
+        foreach (string file in files.Where(File.Exists))
+        {
+            if ((File.GetAttributes(file) & FileAttributes.ReadOnly) != 0)
+                throw new IOException("This game file is read-only: " + file + ". Clear its read-only attribute or use a writable game copy.");
+            try { using (new FileStream(file, FileMode.Open, FileAccess.Write, FileShare.ReadWrite)) { } }
+            catch (UnauthorizedAccessException) { return file; }
+        }
+        return null;
+    }
+
+    public static ProcessStartInfo ElevatedStart(string executable, params string[] arguments)
+    {
+        return new ProcessStartInfo(executable, String.Join(" ", arguments.Select(Quote)))
+        { UseShellExecute = true, Verb = "runas", WorkingDirectory = Path.GetDirectoryName(executable) };
+    }
+
+    public static bool RequestAdministrator(string deniedPath, params string[] arguments)
+    {
+        if (IsAdministrator())
+            throw new UnauthorizedAccessException("Windows still denied access with administrator permission: " + deniedPath +
+                ". Check this folder's permissions and your security software's protection history, or use a writable game folder such as C:\\Games\\Freelancer.");
+        try
+        {
+            using (var process = Process.Start(ElevatedStart(Application.ExecutablePath, arguments)))
+                if (process == null) throw new IOException("Windows could not restart with administrator permission.");
+            return true;
+        }
+        catch (Win32Exception error)
+        {
+            if (error.NativeErrorCode != 1223) throw;
+            return false; // User declined UAC; no automatic retry or game-file changes.
+        }
+    }
+}
 
 public sealed class ManifestEntry
 {
@@ -105,6 +181,23 @@ public static class Launcher
             if (matches.Length != 1) throw new InvalidDataException("Keep the launcher beside this patch's manifest.json file.");
             byte[] before = File.ReadAllBytes(exe);
             byte[] after = PrepareMode(before, matches[0].sha256, mode);
+            // Portable saves and FPS settings need write access even when the
+            // selected display mode already matches the executable.
+            var folders = new List<string> { gameFolder, Path.GetDirectoryName(exe) };
+            string saves = Path.Combine(gameFolder, "SAVE");
+            if (Directory.Exists(saves)) folders.Add(saves);
+            foreach (string child in new[] { "SinglePlayer", "MultiPlayer" })
+                if (Directory.Exists(Path.Combine(saves, child))) folders.Add(Path.Combine(saves, child));
+            var writableFiles = new List<string> { Path.Combine(gameFolder, "EXE", "flplusplus.ini") };
+            writableFiles.Add(Path.Combine(saves, "PerfOptions.ini"));
+            if (!before.SequenceEqual(after)) writableFiles.Add(exe);
+            string denied = GameAccess.FindDeniedDirectory(folders) ?? GameAccess.FindDeniedFile(writableFiles);
+            if (denied != null)
+            {
+                if (!GameAccess.RequestAdministrator(denied, Path.GetFullPath(gameFolder), mode))
+                    MessageBox.Show("Launch cancelled. This game folder needs administrator permission to save settings and progress. You can try again or use a writable folder such as C:\\Games\\Freelancer.", "Freelancer launch cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return 0;
+            }
             if (!before.SequenceEqual(after))
             {
                 string backup = exe + ".before-display-mode.bak";

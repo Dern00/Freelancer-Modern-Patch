@@ -5,13 +5,28 @@ With no arguments, the launcher asks you to select the patched EXE\Freelancer.ex
 Keep the launcher beside the package's manifest.json.
 
 This is a Windows .NET Framework executable, not a PowerShell script. It does
-not require script execution to be enabled or administrator rights. It preserves
+not require script execution to be enabled. It preserves
 the FPS choice saved in the game menu and applies process-local DPI awareness.
 Errors appear in a dialog and are written to Launcher.log when the folder permits.
 
 The whole executable is hash-checked after normalizing the three documented
 display-mode offsets. Only those offsets can change, with a backup retained.
 An already-selected mode avoids rewriting the game executable.
+
+Protected game folders: after validating the game, the launcher probes write
+access for the game/EXE/SAVE folders and relevant settings. When Windows denies
+access, it restarts itself via the Windows runas consent prompt, preserving the
+game path and display mode. The game inherits that permission so portable saves
+and FPS settings remain writable. No ACLs or security policies are changed.
+Writable folders run normally. Declining UAC cancels the launch. An elevated
+denial reports the path and stops, rather than repeatedly asking for permission.
+Read-only files and other I/O errors are reported separately.
+
+AccessChecks.cs tests real write probes, preservation, read-only/missing paths,
+Windows argument round-trips and a disposable directory with restricted ACLs.
+Build as /main:AccessChecks with Launcher.cs and the same framework references.
+Pass a scratch directory; add --uac for the interactive elevated-write check.
+The restricted test directory's original ACL is always restored in finally.
 
 Build.ps1 compiles with the .NET Framework C# compiler included on this PC.
 LauncherChecks.cs tests mode round-trips and rejection of incompatible files.
